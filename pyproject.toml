@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dbclientpy"
+version = "0.0.1"
+description = "An easy-to-use, flexible, and fast client for reading, writing, and manging your local database."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/placeholder102023/dbclient"
+"Bug Tracker" = "https://github.com/placeholder102023/dbclient/issues"
