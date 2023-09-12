@@ -61,15 +61,19 @@ class Collection:
         document = Document(path)
         document._value = value
         document.save()
-    
-    def query(self,selector):
+
+    def query(self, selector):
         """
         Passes each document through `selector` and returns all documents that returned True.
 
         Args:
             selctor: A `dict` accepting object that returns a boolean
         """
-        files = [Document(os.path.join(self.path, p).removesuffix('.json')).get_json() for p in os.listdir(self.path) if os.path.isfile(os.path.join(self.path, p))]
+        files = [
+            Document(os.path.join(self.path, p).removesuffix(".json")).get_json()
+            for p in os.listdir(self.path)
+            if os.path.isfile(os.path.join(self.path, p))
+        ]
         return [doc for doc in files if selector(doc)]
 
 
@@ -97,7 +101,7 @@ class Document:
                 if not os.path.exists("/".join(path_components[: i + 1])):
                     if not path_components[i].endswith(".json"):
                         os.mkdir("/".join(path_components[: i + 1]))
-            with open(self.path+'.json') as f:
+            with open(self.path + ".json") as f:
                 self._value = json.load(f)
         else:
             self._value = _value
@@ -108,6 +112,7 @@ class Document:
         if type(self._value[key]) in (dict, list):
             return Document(self.path, self, self._value[key], key)
         return self._value[key]
+
     def __setitem__(self, key: str, value):
         self._value[key] = value
         if self._parent:
@@ -127,13 +132,16 @@ class Document:
         This will dump all of your changes and read the document again
         """
         if self._parent is None:
-            with open(self.path+'.json') as f:
-                    self._value = json.load(f)
+            with open(self.path + ".json") as f:
+                self._value = json.load(f)
 
     @property
     def exists(self):
         return os.path.exists(self.path)
 
     def get_json(self):
-        with open(self.path + '.json') as f:
+        with open(self.path + ".json") as f:
             return json.load(f)
+
+    def __contains__(self, value):
+        return value in self._value
